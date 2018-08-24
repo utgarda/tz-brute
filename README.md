@@ -35,24 +35,18 @@ python main.py
 ```
   
 ##### Linux
-###### coming soon
+###### probably works the same way
 ##### Windows
-###### coming soon
+###### try it yourself
 ###
 ###
 ## Parameters:
-##### Charset (1 - 6):
-This is basically the characters that could be in your password, the lower the number and the less in the charset the better as it'll mean less permutations to test.
+##### Pattern:
+Try to remember what you could put in that password, express it in the form like 
 ```
-1| "0123456789"
-2| "0123456789abcdefghijklmnopqrstuvwxyz"
-3| "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-4| "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-5| "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
-6| "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+secr(3|e)t(key)?[0-9]{2}
 ```
-##### Minimum (1 - ?):
-This is the password length that the bruteforcer will start at, this can really help cut down on crack time by skipping the multitudes of permutations possible in lengths that you don't think your password would be.
+Check https://github.com/asciimoo/exrex to see your options.
 
 ##### Public key (e.g. tz1ABCDeF...):
 This is the address you were given as your Tezos address upon contribution.
@@ -80,18 +74,10 @@ ___
 ###
 ###
 
-built by Jon - admin of the [unofficial Tezos Telegram](https://t.me/tezosplatform)  
+built by Jon - admin of the [unofficial Tezos Telegram](https://t.me/tezosplatform)
   
 web: [e.rroneo.us](http://e.rroneo.us/)  
 email: [jon@e.rroneo.us](mailto:jon@e.rroneo.us)  
 telegram: [@erroneous](https://t.me/erroneous)  
-  
-feel free to contact me with any questions!  
-  
-  
-feeling generous?  
-  
-tez: tz1MDNRzDjHEXrMM17MeajYBBJwGVWBrgWhb  
-eth: 0xbebb3c979daa3fbe89af4fb624c454ab842b18b3  
-btc: 3NSczAYLbyhKpKACW2epwgxUZVfthbUHzR  
-ltc: MDt9foDqjRhuCrWQhucYdJgCjXgASdShw9  
+
+updated with pattern usage by E.T.

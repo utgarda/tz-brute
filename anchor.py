@@ -5,9 +5,7 @@ import os
 
 data = {
 	"parameters" : {
-		"charset" : 4,
-		"custom" : "",
-		"minimum" : 3
+		"pattern" : "",
 	},
 	"details" : {
 		"address" : "",
@@ -30,7 +28,7 @@ def load():
 def save():
 	global data
 	with open("anchor.json", "w") as file:
-	    json.dump(data, file, indent=True)
+		json.dump(data, file, indent=True)
 
 def reset():
 	if Path("anchor.json").is_file():

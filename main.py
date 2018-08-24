@@ -4,51 +4,20 @@ import anchor
 import brute
 import tezos
 
-charsets = [
-	"0123456789",
-	"0123456789abcdefghijklmnopqrstuvwxyz",
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&'()*+,-./:;<=>?@[\]^_`{|}~",
-	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
-]
-
-
 if len(sys.argv) > 1 and sys.argv[1] == "reset":
 	anchor.reset()
 	sys.exit()
 
 if anchor.exists():
 	anchor.load()
-	charsets.append(anchor.data["parameters"]["custom"])
 	if anchor.data["success"]:
 		print("Password is {}. Found in {} guesses.".format(anchor.data["details"]["password"], anchor.data["depth"]))
 		sys.exit()
 else:
 	i = 1
-	print("Charsets:")
-	for charset in charsets:
-		print("["+str(i)+"]: "+charset)
-		i += 1
-	print("["+str(i)+"]: CUSTOM CHARSET (ADVANCED)")
+	pattern = input("Please enter a pattern ( like secr(3|e)t(key)?[0-9]{2} ): ")
+	anchor.data["parameters"]["pattern"] = pattern
 
-	selected_charset = "-1"
-	while not (selected_charset.isdigit() and int(selected_charset) >= 1 and int(selected_charset) <= 7):
-		selected_charset = input("Please select a charset (1 - 7): ")
-	anchor.data["parameters"]["charset"] = int(selected_charset) - 1
-	
-	if anchor.data["parameters"]["charset"] == 6:
-		selected_custom_charset = ""
-		while len(selected_custom_charset) == 0:
-			selected_custom_charset = input("Please enter a custom charset (e.g. 0123456789abcde...): ")
-		anchor.data["parameters"]["custom"] = selected_custom_charset
-		charsets.append(anchor.data["parameters"]["custom"])
-	
-	selected_minimum = "-1"
-	while not (selected_minimum.isdigit() and int(selected_minimum) >= 6):
-		selected_minimum = input("Please select a minimum length (6 - ?): ")
-	anchor.data["parameters"]["minimum"] = int(selected_minimum)
-	
 	selected_address = ""
 	while len(selected_address) == 0:
 		selected_address = input("Please enter your tezos contribution public key (e.g. tz1ABCDeF...): ")
@@ -75,10 +44,10 @@ def check(password):
 	return tezos.check(anchor.data["details"]["address"], anchor.data["details"]["mnemonic"], anchor.data["details"]["email"], password)
 
 
-charset = charsets[anchor.data["parameters"]["charset"]]
-print("Starting bruteforce with charset[{}]...".format(charset))
+pattern = anchor.data["parameters"]["pattern"]
+print("Starting bruteforce with pattern {} ...".format(pattern))
 
-password = brute.force(int(anchor.data["depth"]), charset, anchor.data["parameters"]["minimum"], 100, check, cache)
+password = brute.force(int(anchor.data["depth"]), pattern, check, cache)
 if password:
 	print("Password is {}. Found in {} guesses.".format(password[0], password[1]))
 	anchor.data["details"]["password"] = password[0]

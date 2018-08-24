@@ -1,22 +1,17 @@
-import math
-import itertools
+import exrex
 
-def force(start_depth, charset, minimum, maximum, check_callback, cache_callback):
-	attempts = 0
-	last_depth = start_depth
-	for password_length in range(minimum, maximum):
-		for guess in itertools.product(charset, repeat=password_length):
-			attempts += 1
-			if attempts < last_depth:
-				continue
+def force(start_depth, pattern, check_callback, cache_callback):
+	attempts = start_depth
 
-			guess = ''.join(guess)
-			if check_callback(guess) == 1:
+	gen = exrex.generate(pattern)
+	for i in range(start_depth):
+		next(gen)
+
+	for guess in gen:
+		attempts += 1
+		if check_callback(guess) == 1:
 				return (guess, attempts)
-
-			print("- {} - permutations: {}".format(guess, attempts), end="\r")
-			if (math.floor(attempts / 1000) * 1000) > last_depth:
-				last_depth = attempts
-				cache_callback(last_depth)
-
+		print("- {} - permutations: {}".format(guess, attempts))
+		if attempts % 1000 == 0:
+			cache_callback(attempts)
 	return False
